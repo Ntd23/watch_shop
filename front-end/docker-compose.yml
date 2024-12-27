@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  watch-shop-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "yarn install && yarn serve"
+    container_name: watch-shop-front-end
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - vuejs-network
+networks:
+  vuejs-network:
+    driver: bridge
