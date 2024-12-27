@@ -1,0 +1,47 @@
+version: "3.7"
+
+services:
+  watch-shop-server: #nginx and php-fpm
+    build: ./
+    ports:
+      - 9090:80
+    volumes:
+      - ./:/usr/share/nginx/html
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - watch-shop-docker
+
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: watch-shop
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - .docker/dbdata:/var/lib/mysql
+      - ./storage:/var/www/html/storage
+    networks:
+      - watch-shop-docker
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: 123456
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 300M
+    ports:
+      - "9091:80"
+    networks:
+      - watch-shop-docker
+
+networks:
+  watch-shop-docker:
+    driver: bridge
