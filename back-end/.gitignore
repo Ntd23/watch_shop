@@ -17,3 +17,9 @@ yarn-error.log
 /.idea
 /.vscode
 dbdata/
+../.docker/
+../.env
+../.gitignore
+../bootstrap/
+../storage/
+../vendor/
