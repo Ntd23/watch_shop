@@ -17,7 +17,7 @@ class ProductController extends Controller
    */
   public function index()
   {
-    return new ProductResource(Product::with(['product_details'])->all());
+    return new ProductResource(Product::with(['product_details'])->get());
   }
 
   /**
